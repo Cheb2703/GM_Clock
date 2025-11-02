@@ -1,19 +1,18 @@
-// GM Clock 10/10/2025
-
-
-//Test Code for IDE & Upload Success
-
+#include <cstdio>
 #include "pico/stdlib.h"
+#include "pico/cyw43_arch.h"
+#include "wifi_setup.h"
+#include <lwip/dns.h>
+
 
 int main() {
-    const uint LED_PIN = 25; // Built-in LED on Pico
-    gpio_init(LED_PIN);
-    gpio_set_dir(LED_PIN, GPIO_OUT);
+    stdio_init_all();  // Initialize USB stdio
+    sleep_ms(2000);
 
-    while (true) {
-        gpio_put(LED_PIN, 1);
-        sleep_ms(500);
-        gpio_put(LED_PIN, 0);
-        sleep_ms(500);
+    if (connect_to_wifi() == 0) {
+        printf("Wi-Fi connected successfully!\n");
+    } else {
+        printf("Wi-Fi connection failed!\n");
     }
 }
+
