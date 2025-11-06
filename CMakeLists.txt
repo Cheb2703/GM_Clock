@@ -7,7 +7,7 @@ set(PICO_SDK_PATH "C:/pico/pico-sdk")
 set(PICO_PLATFORM rp2350-arm-s)
 set(PICO_BOARD pico2_w)
 
-include("${PICO_SDK_PATH}/pico_sdk_init.cmake")
+include("${PICO_SDK_PATH}/external/pico_sdk_import.cmake")
 
 
 project(GM_Clock C CXX ASM)
@@ -25,17 +25,24 @@ add_executable(GM_Clock
         lwipopts.h
         wifi_setup.cpp
         wifi_setup.h
+        time_grab.cpp
+        time_grab.h
+        LED_control.cpp
+        LED_control.h
 )
 
 # Link libraries
 target_link_libraries(GM_Clock
         pico_stdlib
         pico_cyw43_arch_lwip_threadsafe_background
-        hardware_clocks
+        pico_util
+        hardware_powman
+        hardware_spi
 )
 
 target_include_directories(GM_Clock PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}  # this lets it find lwipopts.h
+        ${PICO_SDK_PATH}/src/common/pico_util/include
 )
 
 # Enable USB serial output, disable UART
